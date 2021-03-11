@@ -1,5 +1,5 @@
 class_name Enemy
-extends Area2D
+extends PathFollow2D
 
 signal shoot(bullet)
 signal died(position)
@@ -16,12 +16,6 @@ func _ready() -> void:
 	call_deferred("_start_shooting")
 
 
-func die() -> void:
-	get_parent().remove_child(self)
-	emit_signal("died", position)
-	queue_free()
-
-
 func _start_shooting() -> void:
 	randomize()
 	var start_time := rand_range(0, 2)
@@ -33,3 +27,13 @@ func _on_ShootTimer_timeout() -> void:
 	var bullet := _bullet_scene.instance() as Node2D
 	bullet.position = position
 	emit_signal("shoot", bullet)
+
+
+func _on_Area_area_entered(_area: Area2D) -> void:
+	call_deferred("_die")
+
+
+func _die() -> void:
+	get_parent().remove_child(self)
+	emit_signal("died", position)
+	queue_free()

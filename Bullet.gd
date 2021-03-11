@@ -24,13 +24,8 @@ func _on_VisibilityNotifier2D_screen_exited() -> void:
 
 
 func _on_Bullet_area_entered(area: Area2D) -> void:
-	if area is Enemy:
-		var enemy := area as Enemy
-		enemy.die()
-		queue_free()
-	else: # area is Bullet:
+	if area.get_script() == get_script():
 		emit_signal("exploded", area)
-
 	queue_free()
 
 
