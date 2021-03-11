@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://EnemyWave.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -9,16 +9,7 @@
 [node name="Game" type="Node"]
 script = ExtResource( 3 )
 
-[node name="Enemies" type="Node" parent="."]
-
-[node name="Enemy" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 149, 181 )
-
-[node name="Enemy2" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 470, 119 )
-
-[node name="Enemy3" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 791, 213 )
+[node name="EnemyWave" parent="." instance=ExtResource( 2 )]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 521.06, 566.624 )
@@ -35,5 +26,8 @@ shape = SubResource( 1 )
 position = Vector2( 1024, 590 )
 shape = SubResource( 1 )
 
+[connection signal="enemy_died" from="EnemyWave" to="." method="_on_EnemyWave_enemy_died"]
+[connection signal="shot_fired" from="EnemyWave" to="." method="_on_shot_firedt"]
+[connection signal="wave_cleared" from="EnemyWave" to="." method="_on_EnemyWave_wave_cleared"]
 [connection signal="died" from="Player" to="." method="_on_Player_died" flags=6]
-[connection signal="shoot" from="Player" to="." method="_on_shoot"]
+[connection signal="shoot" from="Player" to="." method="_on_shot_firedt"]
