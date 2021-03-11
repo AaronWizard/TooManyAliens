@@ -1,8 +1,6 @@
 class_name EnemyWave
 extends Node
 
-export var speed := 0.2
-
 signal shot_fired(bullet)
 signal enemy_died(position)
 signal wave_cleared
@@ -17,12 +15,6 @@ func _ready() -> void:
 		enemy.connect("shoot", self, "_on_shoot")
 		# warning-ignore:return_value_discarded
 		enemy.connect("died", self, "_on_enemy_died", [], CONNECT_ONESHOT)
-
-
-func _process(delta: float) -> void:
-	for c in _enemies.get_children():
-		var child := c as PathFollow2D
-		child.unit_offset += speed * delta
 
 
 func _on_shoot(bullet: Bullet) -> void:

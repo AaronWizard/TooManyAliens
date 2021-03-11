@@ -4,6 +4,7 @@ extends PathFollow2D
 signal shoot(bullet)
 signal died(position)
 
+export var speed := 0.2
 export var shoot_rate := 1 # Shots per second
 
 var _bullet_scene := load("res://EnemyBullet.tscn")
@@ -18,6 +19,10 @@ func _ready() -> void:
 	randomize()
 	_shoot_start_timer.wait_time = rand_range(0, 2)
 	_shoot_start_timer.start()
+
+
+func _process(delta: float) -> void:
+	unit_offset += speed * delta
 
 
 func _on_ShootStartTimer_timeout() -> void:
