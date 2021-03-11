@@ -1,10 +1,12 @@
 class_name Enemy
 extends Area2D
 
+signal shoot(bullet)
+signal died(position)
+
 export var shoot_rate := 1 # Shots per second
 
-var _bullet_scene := preload("res://EnemyBullet.tscn")
-var _explosion_scene := preload("res://Explosion.tscn")
+var _bullet_scene := load("res://EnemyBullet.tscn")
 
 onready var _shoot_timer := $ShootTimer as Timer
 
@@ -12,6 +14,12 @@ onready var _shoot_timer := $ShootTimer as Timer
 func _ready() -> void:
 	_shoot_timer.wait_time = 1.0 / float(shoot_rate)
 	call_deferred("_start_shooting")
+
+
+func die() -> void:
+	get_parent().remove_child(self)
+	emit_signal("died", position)
+	queue_free()
 
 
 func _start_shooting() -> void:
@@ -24,12 +32,4 @@ func _start_shooting() -> void:
 func _on_ShootTimer_timeout() -> void:
 	var bullet := _bullet_scene.instance() as Node2D
 	bullet.position = position
-	owner.add_child(bullet)
-	bullet.owner = owner
-
-
-func _on_Enemy_area_entered(_area: Area2D) -> void:
-	var explosion := _explosion_scene.instance() as Node2D
-	explosion.position = position
-	owner.add_child(explosion)
-	queue_free()
+	emit_signal("shoot", bullet)

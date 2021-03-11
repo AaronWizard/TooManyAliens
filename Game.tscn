@@ -9,6 +9,17 @@
 [node name="Game" type="Node"]
 script = ExtResource( 3 )
 
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Enemy" parent="Enemies" instance=ExtResource( 2 )]
+position = Vector2( 149, 181 )
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource( 2 )]
+position = Vector2( 470, 119 )
+
+[node name="Enemy3" parent="Enemies" instance=ExtResource( 2 )]
+position = Vector2( 791, 213 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 521.06, 566.624 )
 
@@ -24,13 +35,5 @@ shape = SubResource( 1 )
 position = Vector2( 1024, 590 )
 shape = SubResource( 1 )
 
-[node name="Enemy" parent="." instance=ExtResource( 2 )]
-position = Vector2( 149, 181 )
-
-[node name="Enemy2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 470, 119 )
-
-[node name="Enemy3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 791, 213 )
-
-[connection signal="died" from="Player" to="." method="_on_Player_died"]
+[connection signal="died" from="Player" to="." method="_on_Player_died" flags=6]
+[connection signal="shoot" from="Player" to="." method="_on_shoot"]
