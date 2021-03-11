@@ -12,32 +12,32 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "Bullet",
 "language": "GDScript",
-"path": "res://src/Bullet.gd"
+"path": "res://src/game/Bullet.gd"
 }, {
 "base": "PathFollow2D",
 "class": "Enemy",
 "language": "GDScript",
-"path": "res://src/Enemy.gd"
+"path": "res://src/game/Enemy.gd"
 }, {
 "base": "Node",
 "class": "EnemyWave",
 "language": "GDScript",
-"path": "res://src/EnemyWave.gd"
+"path": "res://src/game/EnemyWave.gd"
 }, {
 "base": "CPUParticles2D",
 "class": "Explosion",
 "language": "GDScript",
-"path": "res://src/Explosion.gd"
+"path": "res://src/game/Explosion.gd"
 }, {
 "base": "ColorRect",
 "class": "PauseScreen",
 "language": "GDScript",
-"path": "res://src/PauseScreen.gd"
+"path": "res://src/game/PauseScreen.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
-"path": "res://src/Player.gd"
+"path": "res://src/game/Player.gd"
 } ]
 _global_script_class_icons={
 "Bullet": "",
@@ -51,7 +51,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Too Many Aliens"
-run/main_scene="res://src/Game.tscn"
+run/main_scene="res://src/game/Game.tscn"
 config/icon="res://icon.png"
 
 [display]

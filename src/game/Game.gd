@@ -3,7 +3,7 @@ extends Node
 onready var _enemies := $EnemyWave
 onready var _pause := $PauseScreen as CanvasItem
 
-var _explosion_scene := preload("res://src/Explosion.tscn")
+var _explosion_scene := preload("res://src/game/Explosion.tscn")
 
 
 func _ready() -> void:

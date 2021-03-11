@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://src/Game.gd" type="Script" id=1]
-[ext_resource path="res://src/EnemyWave.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/PauseScreen.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/game/Game.gd" type="Script" id=1]
+[ext_resource path="res://src/game/EnemyWave.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/game/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/game/PauseScreen.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
