@@ -3,7 +3,7 @@ extends Node
 onready var _enemies := $EnemyWave
 onready var _pause := $PauseScreen as CanvasItem
 
-var _explosion_scene := preload("res://Explosion.tscn")
+var _explosion_scene := preload("res://src/Explosion.tscn")
 
 
 func _ready() -> void:
@@ -42,7 +42,7 @@ func _add_explosion(position: Vector2) -> void:
 	yield(explosion, "explosion_finished")
 
 
-func _on_shot_firedt(bullet: Bullet) -> void:
+func _on_shot_fired(bullet: Bullet) -> void:
 	# warning-ignore:return_value_discarded
 	bullet.connect("exploded", self, "_on_bullet_collision", [bullet])
 	add_child(bullet)

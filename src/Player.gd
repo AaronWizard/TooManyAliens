@@ -9,7 +9,7 @@ export var shoot_rate := 4 # Shots per second
 
 export var move_threshold := 5
 
-var _bullet_scene := load("res://Bullet.tscn")
+var _bullet_scene := load("res://src/Bullet.tscn")
 
 onready var _bullet_timer := $BulletTimer as Timer
 

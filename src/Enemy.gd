@@ -7,7 +7,7 @@ signal died(position)
 export var speed := 0.2
 export var shoot_rate := 1 # Shots per second
 
-var _bullet_scene := load("res://EnemyBullet.tscn")
+var _bullet_scene := load("res://src/EnemyBullet.tscn")
 
 onready var _shoot_start_timer := $ShootStartTimer as Timer
 onready var _shoot_timer := $ShootTimer as Timer
