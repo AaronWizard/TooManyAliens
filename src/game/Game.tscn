@@ -30,6 +30,21 @@ shape = SubResource( 1 )
 [node name="PauseScreen" parent="." instance=ExtResource( 4 )]
 visible = false
 
+[node name="GameOver" type="CenterContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GameOver"]
+margin_left = 475.0
+margin_top = 293.0
+margin_right = 548.0
+margin_bottom = 307.0
+text = "Game Over"
+
 [connection signal="enemy_died" from="EnemyWave" to="." method="_on_EnemyWave_enemy_died"]
 [connection signal="shot_fired" from="EnemyWave" to="." method="_on_shot_fired"]
 [connection signal="wave_cleared" from="EnemyWave" to="." method="_on_EnemyWave_wave_cleared"]

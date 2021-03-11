@@ -2,6 +2,7 @@ extends Node
 
 onready var _enemies := $EnemyWave
 onready var _pause := $PauseScreen as CanvasItem
+onready var _game_over := $GameOver as CanvasItem
 
 var _explosion_scene := preload("res://src/game/Explosion.tscn")
 
@@ -19,7 +20,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_Player_died(position: Vector2) -> void:
 	yield(_add_explosion(position), "completed")
-	print("game over")
+	_game_over.visible = true
+	yield(get_tree().create_timer(2), "timeout")
+	# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://src/start/Start.tscn")
 
 
 func _on_bullet_collision(bullet: Bullet, other_bullet: Bullet) -> void:
