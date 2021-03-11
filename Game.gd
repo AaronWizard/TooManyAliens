@@ -1,8 +1,20 @@
 extends Node
 
 onready var _enemies := $EnemyWave
+onready var _pause := $PauseScreen as CanvasItem
 
 var _explosion_scene := preload("res://Explosion.tscn")
+
+
+func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		get_tree().paused = true
+		_pause.visible = true
 
 
 func _on_Player_died(position: Vector2) -> void:
@@ -42,3 +54,9 @@ func _on_EnemyWave_enemy_died(position) -> void:
 
 func _on_EnemyWave_wave_cleared() -> void:
 	print("you win")
+
+
+func _on_PauseScreen_unpaused() -> void:
+	_pause.visible = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	get_tree().paused = false

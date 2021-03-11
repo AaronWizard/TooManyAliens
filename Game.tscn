@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://EnemyWave.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game.gd" type="Script" id=3]
+[ext_resource path="res://PauseScreen.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -26,8 +27,12 @@ shape = SubResource( 1 )
 position = Vector2( 1024, 590 )
 shape = SubResource( 1 )
 
+[node name="PauseScreen" parent="." instance=ExtResource( 4 )]
+visible = false
+
 [connection signal="enemy_died" from="EnemyWave" to="." method="_on_EnemyWave_enemy_died"]
 [connection signal="shot_fired" from="EnemyWave" to="." method="_on_shot_firedt"]
 [connection signal="wave_cleared" from="EnemyWave" to="." method="_on_EnemyWave_wave_cleared"]
 [connection signal="died" from="Player" to="." method="_on_Player_died" flags=6]
 [connection signal="shoot" from="Player" to="." method="_on_shot_firedt"]
+[connection signal="unpaused" from="PauseScreen" to="." method="_on_PauseScreen_unpaused"]
