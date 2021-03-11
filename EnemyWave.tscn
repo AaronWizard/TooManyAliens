@@ -1,54 +1,76 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://EnemyWave.gd" type="Script" id=2]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 117.888, 1.76611, -117.888, -1.76611, 467, 84, 2.43163, -71.5609, -2.43163, 71.5609, 127, 166, -200.012, 0.883055, 200.012, -0.883055, 500, 290, -1.32458, 79.0334, 1.32458, -79.0334, 871, 173, 220.764, 3.53222, -220.764, -3.53222, 467, 84 )
+"points": PoolVector2Array( 117.888, 1.76611, -117.888, -1.76611, 467, 84, 1.50223, -56.2259, -1.50223, 56.2259, 127, 151, -200.012, 0.883055, 200.012, -0.883055, 505, 240, 0.534211, 56.2632, -0.534211, -56.2632, 869, 160, 220.764, 3.53222, -220.764, -3.53222, 467, 84 )
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "WaveMotion"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Enemies:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 4, -35 ), Vector2( 5, 134 ), Vector2( 4, -35 ) ]
 }
 
 [node name="EnemyWave" type="Node"]
 script = ExtResource( 2 )
 
 [node name="Enemies" type="Path2D" parent="."]
+position = Vector2( 4, -35 )
 curve = SubResource( 1 )
 
 [node name="Enemy" parent="Enemies" instance=ExtResource( 1 )]
 position = Vector2( 467, 84 )
 
 [node name="Enemy2" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 303.962, 90.7438 )
+position = Vector2( 303.883, 89.966 )
 offset = 163.426
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 147.584, 132.851 )
+position = Vector2( 145.605, 125.702 )
 offset = 326.852
 
 [node name="Enemy4" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 211.517, 245.812 )
+position = Vector2( 232.615, 215.141 )
 offset = 490.278
 
 [node name="Enemy5" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 370.221, 282.743 )
+position = Vector2( 394.514, 236.857 )
 offset = 653.704
 
 [node name="Enemy6" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 532.972, 289.518 )
+position = Vector2( 558.049, 239.219 )
 offset = 817.13
 
 [node name="Enemy7" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 695.597, 275.077 )
+position = Vector2( 720.879, 227.501 )
 offset = 980.556
 
 [node name="Enemy8" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 847.011, 219.258 )
+position = Vector2( 867.555, 169.154 )
 offset = 1143.98
 
 [node name="Enemy9" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 792.431, 108.414 )
+position = Vector2( 736.189, 100.082 )
 offset = 1307.41
 
 [node name="Enemy10" parent="Enemies" instance=ExtResource( 1 )]
-position = Vector2( 630.443, 88.6311 )
+position = Vector2( 573.263, 86.9434 )
 offset = 1470.83
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "WaveMotion"
+anims/WaveMotion = SubResource( 2 )
