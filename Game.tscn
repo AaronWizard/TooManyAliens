@@ -1,11 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Game.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 [node name="Game" type="Node"]
+script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 521.06, 566.624 )
@@ -30,3 +32,5 @@ position = Vector2( 470, 119 )
 
 [node name="Enemy3" parent="." instance=ExtResource( 2 )]
 position = Vector2( 791, 213 )
+
+[connection signal="died" from="Player" to="." method="_on_Player_died"]
