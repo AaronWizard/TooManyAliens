@@ -31,3 +31,4 @@ shape = SubResource( 1 )
 
 [connection signal="died" from="Player" to="." method="_on_Player_died"]
 [connection signal="shoot" from="Player" to="." method="_on_shot_fired"]
+[connection signal="unpaused" from="Gui" to="." method="_on_Gui_unpaused"]

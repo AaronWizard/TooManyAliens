@@ -50,12 +50,38 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (_state == State.GAMEPLAY) and event.is_action_pressed("pause"):
-		_gui.show_pause()
+		_pause()
 
 
 func _notification(what: int) -> void:
-	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
-		_gui.show_pause()
+	match what:
+		MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+			_pause()
+		MainLoop.NOTIFICATION_WM_MOUSE_EXIT:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		MainLoop.NOTIFICATION_WM_MOUSE_ENTER:
+			if _state != State.PAUSE:
+				Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+
+static func _get_waves() -> Array:
+	var result := []
+
+	var directory := Directory.new()
+	var error := directory.open(_WAVES_DIR)
+	if error == OK:
+		# warning-ignore:return_value_discarded
+		directory.list_dir_begin(true, true)
+		var file_name := directory.get_next()
+		while file_name != "":
+			assert(not directory.current_is_dir())
+			result.append(_WAVES_DIR + file_name)
+
+			file_name = directory.get_next()
+	else:
+		print("Error opening waves directory '%s'" % _WAVES_DIR)
+
+	return result
 
 
 func _load_wave() -> void:
@@ -84,24 +110,9 @@ func _clear_wave() -> void:
 	_wave_index = (_wave_index + 1) % _waves.size()
 
 
-static func _get_waves() -> Array:
-	var result := []
-
-	var directory := Directory.new()
-	var error := directory.open(_WAVES_DIR)
-	if error == OK:
-		# warning-ignore:return_value_discarded
-		directory.list_dir_begin(true, true)
-		var file_name := directory.get_next()
-		while file_name != "":
-			assert(not directory.current_is_dir())
-			result.append(_WAVES_DIR + file_name)
-
-			file_name = directory.get_next()
-	else:
-		print("Error opening waves directory '%s'" % _WAVES_DIR)
-
-	return result
+func _pause() -> void:
+	_state = State.PAUSE
+	_gui.show_pause()
 
 
 func _add_explosion(position: Vector2) -> void:
@@ -167,3 +178,8 @@ func _on_wave_cleared() -> void:
 	_clear_wave()
 	if _state == State.GAMEPLAY:
 		_load_wave()
+
+
+func _on_Gui_unpaused() -> void:
+	_state = State.GAMEPLAY
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
