@@ -5,7 +5,7 @@ signal shoot(bullet_scene, position)
 signal died(position)
 
 export var speed := 400 # Pixels per second
-export var shoot_rate := 4 # Shots per second
+export var shoot_rate := 3 # Shots per second
 
 export var move_threshold := 5
 
