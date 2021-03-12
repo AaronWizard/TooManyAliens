@@ -6,4 +6,5 @@ Generic space shooter.
 
 ## Credits
 
-Built in Godot 3.2.4: https://godotengine.org/
+Built in Godot 3.2.4: https://godotengine.org/  
+Sounds created using ChipTone: https://sfbgames.itch.io/chiptone
