@@ -68,4 +68,5 @@ margin_right = 548.0
 margin_bottom = 307.0
 text = "Game Over"
 
+[connection signal="quit" from="PauseScreen" to="." method="_on_PauseScreen_quit"]
 [connection signal="unpaused" from="PauseScreen" to="." method="_on_PauseScreen_unpaused"]

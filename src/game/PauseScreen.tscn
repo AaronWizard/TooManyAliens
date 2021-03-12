@@ -26,15 +26,29 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_right = 69.0
+margin_right = 144.0
 margin_bottom = 14.0
 text = "Paused"
 align = 1
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 18.0
-margin_right = 69.0
+margin_right = 144.0
 margin_bottom = 38.0
+
+[node name="Continue" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 70.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 70, 0 )
 text = "Continue"
 
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_Button_pressed"]
+[node name="Quit" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 74.0
+margin_right = 144.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 70, 0 )
+text = "Quit"
+
+[connection signal="visibility_changed" from="." to="." method="_on_PauseScreen_visibility_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Continue" to="." method="_on_Continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Quit" to="." method="_on_Quit_pressed"]

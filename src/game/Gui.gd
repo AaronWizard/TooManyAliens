@@ -2,6 +2,7 @@ class_name Gui
 extends CanvasLayer
 
 signal unpaused
+signal quit
 
 const _WAVE_ANNOUNCE_TEXT := "Wave %d approaching"
 const _WAVE_ANNOUNCE_TIME := 2.0
@@ -16,8 +17,6 @@ func set_lives_count(count: int) -> void:
 
 
 func show_pause() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_tree().paused = true
 	_pause_screen.visible = true
 
 
@@ -34,5 +33,8 @@ func show_game_over() -> void:
 
 func _on_PauseScreen_unpaused() -> void:
 	_pause_screen.visible = false
-	get_tree().paused = false
 	emit_signal("unpaused")
+
+
+func _on_PauseScreen_quit() -> void:
+	emit_signal("quit")

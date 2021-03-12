@@ -122,6 +122,11 @@ func _add_explosion(position: Vector2) -> void:
 	yield(explosion, "explosion_finished")
 
 
+func _quit() -> void:
+	# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://src/start/Start.tscn")
+
+
 func _on_Player_died(position: Vector2) -> void:
 	_state = State.PLAYER_DEAD
 
@@ -138,8 +143,7 @@ func _on_Player_died(position: Vector2) -> void:
 		_state = State.GAME_OVER
 		_gui.show_game_over()
 		yield(get_tree().create_timer(_GAME_OVER_TIME), "timeout")
-		# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://src/start/Start.tscn")
+		_quit()
 
 
 func _on_shot_fired(bullet_scene: PackedScene, bullet_pos: Vector2) -> void:
@@ -183,3 +187,7 @@ func _on_wave_cleared() -> void:
 func _on_Gui_unpaused() -> void:
 	_state = State.GAMEPLAY
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+
+func _on_Gui_quit() -> void:
+	_quit()
