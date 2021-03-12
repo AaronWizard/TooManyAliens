@@ -9,6 +9,7 @@ enum State {
 }
 
 const _START_LIVES := 3
+const _LIFE_KILLS := 30
 
 const _WAVES_DIR := "res://src/waves/"
 const _GAME_OVER_TIME := 2.0
@@ -16,6 +17,7 @@ const _GAME_OVER_TIME := 2.0
 var _explosion_scene := preload("res://src/game/Explosion.tscn")
 
 var _lives: int
+var _kill_count: int
 
 var _waves: Array
 var _wave_index: int
@@ -34,6 +36,8 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 	_lives = _START_LIVES
+	_kill_count = 0
+
 	_gui.set_lives_count(_lives)
 
 	_waves = _get_waves()
@@ -151,6 +155,12 @@ func _on_bullet_collision(bullet: Bullet, other_bullet: Bullet) -> void:
 
 func _on_enemy_died(position) -> void:
 	_add_explosion(position)
+
+	_kill_count += 1
+	if _kill_count == _LIFE_KILLS:
+		_kill_count = 0
+		_lives += 1
+		_gui.set_lives_count(_lives)
 
 
 func _on_wave_cleared() -> void:
