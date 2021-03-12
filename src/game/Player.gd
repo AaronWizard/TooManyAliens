@@ -34,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func die() -> void:
-	emit_signal("died", position)
+	emit_signal("died", global_position)
 	queue_free()
 
 

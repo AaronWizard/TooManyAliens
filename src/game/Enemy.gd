@@ -31,7 +31,7 @@ func _on_ShootStartTimer_timeout() -> void:
 
 func _on_ShootTimer_timeout() -> void:
 	var bullet := _bullet_scene.instance() as Node2D
-	bullet.position = position
+	bullet.position = global_position
 	emit_signal("shoot", bullet)
 
 
@@ -40,6 +40,7 @@ func _on_Area_area_entered(_area: Area2D) -> void:
 
 
 func _die() -> void:
+	var pos := global_position
 	get_parent().remove_child(self)
-	emit_signal("died", position)
+	emit_signal("died", pos)
 	queue_free()
