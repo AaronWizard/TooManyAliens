@@ -9,8 +9,11 @@
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
 
+[node name="InitialPlayerPos" type="Position2D" parent="."]
+position = Vector2( 512, 568 )
+
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 521.06, 566.624 )
+position = Vector2( 512, 568 )
 
 [node name="Walls" type="StaticBody2D" parent="."]
 collision_layer = 16
@@ -26,5 +29,5 @@ shape = SubResource( 1 )
 
 [node name="Gui" parent="." instance=ExtResource( 2 )]
 
-[connection signal="died" from="Player" to="." method="_on_Player_died" flags=6]
+[connection signal="died" from="Player" to="." method="_on_Player_died"]
 [connection signal="shoot" from="Player" to="." method="_on_shot_fired"]

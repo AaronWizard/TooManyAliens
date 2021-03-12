@@ -6,6 +6,32 @@
 [node name="Gui" type="CanvasLayer"]
 script = ExtResource( 2 )
 
+[node name="Lives" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = 14.0
+mouse_filter = 2
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="LivesLabel" type="Label" parent="Lives"]
+margin_right = 37.0
+margin_bottom = 14.0
+text = "Lives:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LivesCount" type="Label" parent="Lives"]
+margin_left = 41.0
+margin_right = 49.0
+margin_bottom = 14.0
+text = "0"
+
 [node name="PauseScreen" parent="." instance=ExtResource( 1 )]
 visible = false
 
@@ -14,6 +40,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -30,6 +57,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

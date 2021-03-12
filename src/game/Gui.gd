@@ -4,9 +4,13 @@ extends CanvasLayer
 const _WAVE_ANNOUNCE_TEXT := "Wave %d approaching"
 const _WAVE_ANNOUNCE_TIME := 2.0
 
-onready var _pause_screen := $PauseScreen
-onready var _wave_text := $WaveAnnouncement/Label
-onready var _game_over := $GameOver
+onready var _lives_count := $Lives/LivesCount as Label
+onready var _pause_screen := $PauseScreen as PauseScreen
+onready var _wave_text := $WaveAnnouncement/Label as Label
+onready var _game_over := $GameOver as CanvasItem
+
+func set_lives_count(count: int) -> void:
+	_lives_count.text = str(count)
 
 
 func show_pause() -> void:

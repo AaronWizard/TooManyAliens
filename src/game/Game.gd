@@ -4,15 +4,18 @@ enum State {
 	LOADING_LEVEL,
 	GAMEPLAY,
 	PAUSE,
+	PLAYER_DEAD,
 	GAME_OVER
 }
 
+const _START_LIVES := 3
+
 const _WAVES_DIR := "res://src/waves/"
-
-
 const _GAME_OVER_TIME := 2.0
 
 var _explosion_scene := preload("res://src/game/Explosion.tscn")
+
+var _lives: int
 
 var _waves: Array
 var _wave_index: int
@@ -22,11 +25,16 @@ var _state: int
 
 var _current_wave: EnemyWave
 
+onready var _player := $Player as Player
+onready var _initial_player_pos := $InitialPlayerPos
 onready var _gui := $Gui as Gui
 
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+	_lives = _START_LIVES
+	_gui.set_lives_count(_lives)
 
 	_waves = _get_waves()
 	_wave_index = 0
@@ -100,13 +108,23 @@ func _add_explosion(position: Vector2) -> void:
 
 
 func _on_Player_died(position: Vector2) -> void:
-	_state = State.GAME_OVER
+	_state = State.PLAYER_DEAD
+
+	_lives -= 1
+	_gui.set_lives_count(_lives)
 
 	yield(_add_explosion(position), "completed")
-	_gui.show_game_over()
-	yield(get_tree().create_timer(_GAME_OVER_TIME), "timeout")
-	# warning-ignore:return_value_discarded
-	get_tree().change_scene("res://src/start/Start.tscn")
+
+	if _lives > 0:
+		yield(get_tree().create_timer(_GAME_OVER_TIME), "timeout")
+		_player.respawn(_initial_player_pos.position)
+		_state = State.GAMEPLAY
+	else:
+		_state = State.GAME_OVER
+		_gui.show_game_over()
+		yield(get_tree().create_timer(_GAME_OVER_TIME), "timeout")
+		# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://src/start/Start.tscn")
 
 
 func _on_shot_fired(bullet_scene: PackedScene, bullet_pos: Vector2) -> void:
