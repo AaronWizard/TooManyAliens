@@ -11,7 +11,7 @@ var _player_dying: bool
 
 var _current_wave: EnemyWave
 
-onready var _pause := $PauseScreen as CanvasItem
+onready var _pause_screen := $PauseScreen as CanvasItem
 onready var _game_over := $GameOver as CanvasItem
 
 
@@ -28,9 +28,12 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _player_dying and event.is_action_pressed("pause"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		get_tree().paused = true
-		_pause.visible = true
+		_pause()
+
+
+func _notification(what: int) -> void:
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+		_pause()
 
 
 func _load_wave() -> void:
@@ -51,6 +54,12 @@ func _load_wave() -> void:
 func _clear_wave() -> void:
 	_current_wave.queue_free()
 	_wave_index = (_wave_index + 1) % _waves.size()
+
+
+func _pause() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().paused = true
+	_pause_screen.visible = true
 
 
 static func _get_waves() -> Array:
@@ -115,11 +124,12 @@ func _on_enemy_died(position) -> void:
 
 func _on_wave_cleared() -> void:
 	_clear_wave()
-	yield(get_tree().create_timer(1.0), "timeout")
-	_load_wave()
+	if not _player_dying:
+		yield(get_tree().create_timer(1.0), "timeout")
+		_load_wave()
 
 
 func _on_PauseScreen_unpaused() -> void:
-	_pause.visible = false
+	_pause_screen.visible = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	get_tree().paused = false
