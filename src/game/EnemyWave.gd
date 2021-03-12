@@ -1,7 +1,7 @@
 class_name EnemyWave
 extends Node
 
-signal shot_fired(bullet)
+signal shot_fired(bullet_scene, position)
 signal enemy_died(position)
 signal wave_cleared
 
@@ -17,8 +17,8 @@ func _ready() -> void:
 		enemy.connect("died", self, "_on_enemy_died", [], CONNECT_ONESHOT)
 
 
-func _on_shoot(bullet: Bullet) -> void:
-	emit_signal("shot_fired", bullet)
+func _on_shoot(bullet_scene: PackedScene, bullet_pos: Vector2) -> void:
+	emit_signal("shot_fired", bullet_scene, bullet_pos)
 
 
 func _on_enemy_died(position: Vector2) -> void:

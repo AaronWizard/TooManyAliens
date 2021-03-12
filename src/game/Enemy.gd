@@ -1,7 +1,7 @@
 class_name Enemy
 extends PathFollow2D
 
-signal shoot(bullet)
+signal shoot(bullet_scene, position)
 signal died(position)
 
 export var speed := 0.2
@@ -30,9 +30,7 @@ func _on_ShootStartTimer_timeout() -> void:
 
 
 func _on_ShootTimer_timeout() -> void:
-	var bullet := _bullet_scene.instance() as Node2D
-	bullet.position = global_position
-	emit_signal("shoot", bullet)
+	emit_signal("shoot", _bullet_scene, global_position)
 
 
 func _on_Area_area_entered(_area: Area2D) -> void:

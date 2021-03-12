@@ -27,6 +27,21 @@ shape = SubResource( 1 )
 [node name="PauseScreen" parent="." instance=ExtResource( 4 )]
 visible = false
 
+[node name="WaveAnnouncement" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="WaveAnnouncement"]
+margin_left = 447.0
+margin_top = 293.0
+margin_right = 577.0
+margin_bottom = 307.0
+text = "Wave 1 Approaching"
+
 [node name="GameOver" type="CenterContainer" parent="."]
 visible = false
 anchor_right = 1.0

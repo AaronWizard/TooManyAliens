@@ -1,17 +1,32 @@
 extends Node
 
+enum State {
+	LOADING_LEVEL,
+	GAMEPLAY,
+	PAUSE,
+	GAME_OVER
+}
+
 const _WAVES_DIR := "res://src/waves/"
+const _WAVE_ANNOUNCE_TEXT := "Wave %d approaching"
+const _WAVE_ANNOUNCE_TIME := 2.0
+
+const _GAME_OVER_TIME := 2.0
 
 var _explosion_scene := preload("res://src/game/Explosion.tscn")
 
 var _waves: Array
 var _wave_index: int
+var _wave_count: int
 
-var _player_dying: bool
+var _state: int
 
 var _current_wave: EnemyWave
 
 onready var _pause_screen := $PauseScreen as CanvasItem
+
+onready var _wave_announcement_label := $WaveAnnouncement/Label as Label
+
 onready var _game_over := $GameOver as CanvasItem
 
 
@@ -20,14 +35,14 @@ func _ready() -> void:
 
 	_waves = _get_waves()
 	_wave_index = 0
+	_wave_count = 0
 
-	_player_dying = false
-
+	_state = State.LOADING_LEVEL
 	_load_wave()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not _player_dying and event.is_action_pressed("pause"):
+	if (_state == State.GAMEPLAY) and event.is_action_pressed("pause"):
 		_pause()
 
 
@@ -37,6 +52,14 @@ func _notification(what: int) -> void:
 
 
 func _load_wave() -> void:
+	_state = State.LOADING_LEVEL
+
+	_wave_count += 1
+	_wave_announcement_label.text = _WAVE_ANNOUNCE_TEXT % _wave_count
+	_wave_announcement_label.visible = true
+	yield(get_tree().create_timer(_WAVE_ANNOUNCE_TIME), "timeout")
+	_wave_announcement_label.visible = false
+
 	var wave_path := _waves[_wave_index] as String
 	var wave_scene := load(wave_path) as PackedScene
 	_current_wave = wave_scene.instance() as EnemyWave
@@ -49,6 +72,7 @@ func _load_wave() -> void:
 	_current_wave.connect("wave_cleared", self, "_on_wave_cleared")
 
 	add_child(_current_wave)
+	_state = State.GAMEPLAY
 
 
 func _clear_wave() -> void:
@@ -90,19 +114,22 @@ func _add_explosion(position: Vector2) -> void:
 
 
 func _on_Player_died(position: Vector2) -> void:
-	_player_dying = true
+	_state = State.GAME_OVER
 
 	yield(_add_explosion(position), "completed")
 	_game_over.visible = true
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(_GAME_OVER_TIME), "timeout")
 	# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://src/start/Start.tscn")
 
 
-func _on_shot_fired(bullet: Bullet) -> void:
-	# warning-ignore:return_value_discarded
-	bullet.connect("exploded", self, "_on_bullet_collision", [bullet])
-	add_child(bullet)
+func _on_shot_fired(bullet_scene: PackedScene, bullet_pos: Vector2) -> void:
+	if _state == State.GAMEPLAY:
+		var bullet = bullet_scene.instance() as Bullet
+		bullet.position = bullet_pos
+		# warning-ignore:return_value_discarded
+		bullet.connect("exploded", self, "_on_bullet_collision", [bullet])
+		add_child(bullet)
 
 
 func _on_bullet_collision(bullet: Bullet, other_bullet: Bullet) -> void:
@@ -124,8 +151,7 @@ func _on_enemy_died(position) -> void:
 
 func _on_wave_cleared() -> void:
 	_clear_wave()
-	if not _player_dying:
-		yield(get_tree().create_timer(1.0), "timeout")
+	if _state == State.GAMEPLAY:
 		_load_wave()
 
 

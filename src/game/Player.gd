@@ -1,7 +1,7 @@
 class_name Player
 extends KinematicBody2D
 
-signal shoot(bullet)
+signal shoot(bullet_scene, position)
 signal died(position)
 
 export var speed := 400 # Pixels per second
@@ -40,7 +40,5 @@ func die() -> void:
 
 func _shoot() -> void:
 	if _bullet_timer.is_stopped():
-		var bullet := _bullet_scene.instance() as Node2D
-		bullet.position = position
-		emit_signal("shoot", bullet)
+		emit_signal("shoot", _bullet_scene, global_position)
 		_bullet_timer.start()
