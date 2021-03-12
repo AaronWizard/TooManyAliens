@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/game/Game.gd" type="Script" id=1]
+[ext_resource path="res://src/game/Gui.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/game/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/game/PauseScreen.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -24,39 +24,7 @@ shape = SubResource( 1 )
 position = Vector2( 1024, 590 )
 shape = SubResource( 1 )
 
-[node name="PauseScreen" parent="." instance=ExtResource( 4 )]
-visible = false
-
-[node name="WaveAnnouncement" type="CenterContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="WaveAnnouncement"]
-margin_left = 447.0
-margin_top = 293.0
-margin_right = 577.0
-margin_bottom = 307.0
-text = "Wave 1 Approaching"
-
-[node name="GameOver" type="CenterContainer" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="GameOver"]
-margin_left = 475.0
-margin_top = 293.0
-margin_right = 548.0
-margin_bottom = 307.0
-text = "Game Over"
+[node name="Gui" parent="." instance=ExtResource( 2 )]
 
 [connection signal="died" from="Player" to="." method="_on_Player_died" flags=6]
 [connection signal="shoot" from="Player" to="." method="_on_shot_fired"]
-[connection signal="unpaused" from="PauseScreen" to="." method="_on_PauseScreen_unpaused"]

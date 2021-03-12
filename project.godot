@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/game/Explosion.gd"
 }, {
+"base": "CanvasLayer",
+"class": "Gui",
+"language": "GDScript",
+"path": "res://src/game/Gui.gd"
+}, {
 "base": "ColorRect",
 "class": "PauseScreen",
 "language": "GDScript",
@@ -44,6 +49,7 @@ _global_script_class_icons={
 "Enemy": "",
 "EnemyWave": "",
 "Explosion": "",
+"Gui": "",
 "PauseScreen": "",
 "Player": ""
 }

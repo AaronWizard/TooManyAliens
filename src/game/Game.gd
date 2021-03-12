@@ -8,8 +8,7 @@ enum State {
 }
 
 const _WAVES_DIR := "res://src/waves/"
-const _WAVE_ANNOUNCE_TEXT := "Wave %d approaching"
-const _WAVE_ANNOUNCE_TIME := 2.0
+
 
 const _GAME_OVER_TIME := 2.0
 
@@ -23,11 +22,7 @@ var _state: int
 
 var _current_wave: EnemyWave
 
-onready var _pause_screen := $PauseScreen as CanvasItem
-
-onready var _wave_announcement_label := $WaveAnnouncement/Label as Label
-
-onready var _game_over := $GameOver as CanvasItem
+onready var _gui := $Gui as Gui
 
 
 func _ready() -> void:
@@ -43,22 +38,19 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (_state == State.GAMEPLAY) and event.is_action_pressed("pause"):
-		_pause()
+		_gui.show_pause()
 
 
 func _notification(what: int) -> void:
 	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
-		_pause()
+		_gui.show_pause()
 
 
 func _load_wave() -> void:
 	_state = State.LOADING_LEVEL
 
 	_wave_count += 1
-	_wave_announcement_label.text = _WAVE_ANNOUNCE_TEXT % _wave_count
-	_wave_announcement_label.visible = true
-	yield(get_tree().create_timer(_WAVE_ANNOUNCE_TIME), "timeout")
-	_wave_announcement_label.visible = false
+	yield(_gui.show_wave_announcement(_wave_count), "completed")
 
 	var wave_path := _waves[_wave_index] as String
 	var wave_scene := load(wave_path) as PackedScene
@@ -78,12 +70,6 @@ func _load_wave() -> void:
 func _clear_wave() -> void:
 	_current_wave.queue_free()
 	_wave_index = (_wave_index + 1) % _waves.size()
-
-
-func _pause() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_tree().paused = true
-	_pause_screen.visible = true
 
 
 static func _get_waves() -> Array:
@@ -117,7 +103,7 @@ func _on_Player_died(position: Vector2) -> void:
 	_state = State.GAME_OVER
 
 	yield(_add_explosion(position), "completed")
-	_game_over.visible = true
+	_gui.show_game_over()
 	yield(get_tree().create_timer(_GAME_OVER_TIME), "timeout")
 	# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://src/start/Start.tscn")
@@ -153,9 +139,3 @@ func _on_wave_cleared() -> void:
 	_clear_wave()
 	if _state == State.GAMEPLAY:
 		_load_wave()
-
-
-func _on_PauseScreen_unpaused() -> void:
-	_pause_screen.visible = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	get_tree().paused = false
