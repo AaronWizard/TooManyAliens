@@ -27,9 +27,11 @@ shape = SubResource( 1 )
 position = Vector2( 1024, 590 )
 shape = SubResource( 1 )
 
+[node name="PlayerBulletSounds" type="Node" parent="."]
+
 [node name="Gui" parent="." instance=ExtResource( 2 )]
 
 [connection signal="died" from="Player" to="." method="_on_Player_died"]
-[connection signal="shoot" from="Player" to="." method="_on_shot_fired"]
+[connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]
 [connection signal="quit" from="Gui" to="." method="_on_Gui_quit"]
 [connection signal="unpaused" from="Gui" to="." method="_on_Gui_unpaused"]

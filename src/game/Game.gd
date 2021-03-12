@@ -14,6 +14,7 @@ const _LIFE_KILLS := 30
 const _WAVES_DIR := "res://src/waves/"
 const _GAME_OVER_TIME := 2.0
 
+var _bullet_sound := preload("res://src/game/BulletSound.tscn")
 var _explosion_scene := preload("res://src/game/Explosion.tscn")
 
 var _lives: int
@@ -30,6 +31,7 @@ var _current_wave: EnemyWave
 onready var _player := $Player as Player
 onready var _initial_player_pos := $InitialPlayerPos
 onready var _gui := $Gui as Gui
+onready var _player_bullet_sounds := $PlayerBulletSounds
 
 
 func _ready() -> void:
@@ -153,6 +155,13 @@ func _on_shot_fired(bullet_scene: PackedScene, bullet_pos: Vector2) -> void:
 		# warning-ignore:return_value_discarded
 		bullet.connect("exploded", self, "_on_bullet_collision", [bullet])
 		add_child(bullet)
+
+
+func _on_Player_shoot(bullet_scene: PackedScene, bullet_pos) -> void:
+	if _state == State.GAMEPLAY:
+		_on_shot_fired(bullet_scene, bullet_pos)
+		var bullet_sound := _bullet_sound.instance()
+		_player_bullet_sounds.add_child(bullet_sound)
 
 
 func _on_bullet_collision(bullet: Bullet, other_bullet: Bullet) -> void:
