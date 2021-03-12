@@ -7,6 +7,8 @@ var _explosion_scene := preload("res://src/game/Explosion.tscn")
 var _waves: Array
 var _wave_index: int
 
+var _player_dying: bool
+
 var _current_wave: EnemyWave
 
 onready var _pause := $PauseScreen as CanvasItem
@@ -19,11 +21,13 @@ func _ready() -> void:
 	_waves = _get_waves()
 	_wave_index = 0
 
+	_player_dying = false
+
 	_load_wave()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause"):
+	if not _player_dying and event.is_action_pressed("pause"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().paused = true
 		_pause.visible = true
@@ -77,6 +81,8 @@ func _add_explosion(position: Vector2) -> void:
 
 
 func _on_Player_died(position: Vector2) -> void:
+	_player_dying = true
+
 	yield(_add_explosion(position), "completed")
 	_game_over.visible = true
 	yield(get_tree().create_timer(2), "timeout")
