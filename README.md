@@ -2,6 +2,8 @@
 
 AaronWizard, 2021
 
+![screenshot](docs/screenshot.png)
+
 Generic space shooter.
 
 ## Credits
