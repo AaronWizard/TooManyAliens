@@ -5,7 +5,7 @@ signal shoot(bullet)
 signal died(position)
 
 export var speed := 0.2
-export var shoot_rate := 1 # Shots per second
+export var shoot_rate := 0.75 # Shots per second
 
 var _bullet_scene := load("res://src/game/EnemyBullet.tscn")
 
