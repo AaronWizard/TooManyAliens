@@ -9,3 +9,7 @@ direction = 1
 
 [node name="Sprite" parent="." index="0"]
 modulate = Color( 0.596078, 0.298039, 0.92549, 1 )
+
+[node name="AudioStreamPlayer2D" parent="." index="3"]
+stream = null
+autoplay = false
